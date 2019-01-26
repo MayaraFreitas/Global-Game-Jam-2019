@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class GerenciadorDoGame : MonoBehaviour
 {
-    public GameObject canvasGO;
+    public GameObject dieCanvas;
 
-    // Start is called before the first frame update
     void Start()
     {
-        canvasGO.SetActive(false);
+        dieCanvas.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -20,15 +18,15 @@ public class GerenciadorDoGame : MonoBehaviour
 
     public void FinalizarJogo()
     {
-        canvasGO.SetActive(true);
+        dieCanvas.SetActive(true);
     }
 
-    public void AlterarCena(string nomeDaCena)
+    public void ChangeScene(string nomeDaCena)
     {
         Application.LoadLevel(nomeDaCena);
     }
 
-    public void FecharAplicativo()
+    public void CloseGame()
     {
         Application.Quit();
     }

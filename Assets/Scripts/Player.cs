@@ -1,8 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Player : MonoBehaviour {
+
+    #region Properties
 
     public float speed = 10f;
     public float jumpForce = 200f;
@@ -10,20 +10,25 @@ public class Player : MonoBehaviour {
     public LayerMask whatIsGround;
     public float radius = 0.2f;
 
-    bool isJumping = false;
-    bool isOnFloor = false;
-    bool paddle = false;
+    private bool isJumping = false;
+    private bool isOnFloor = false;
+    private bool paddle = false;
 
-    Rigidbody2D body;
-    CapsuleCollider2D collider;
-    SpriteRenderer sprite;
-    Animator anim;
+    private Rigidbody2D body;
+    private CapsuleCollider2D collider;
+    private SpriteRenderer sprite;
+    private Animator anim;
+
+    private float lastWoodPosition;
 
     private Vector3 baseColliderSize;
     private Vector3 paddleColliderSize;
 
-    // Use this for initialization
-    void Start () {
+    #endregion Properties
+
+    #region Methods
+
+    public void Start () {
         body = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
@@ -33,9 +38,8 @@ public class Player : MonoBehaviour {
         paddleColliderSize = new Vector3(collider.size.x, (collider.size.y / 2f));
 
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    public void Update () {
         //isOnFloor = Physics2D.Linecast(transform.position, groundCheck.position, whatIsGround);
         isOnFloor = Physics2D.OverlapCircle(groundCheck.position, radius, whatIsGround);
 
@@ -45,8 +49,8 @@ public class Player : MonoBehaviour {
         }
 
         PlayerAnimation();
-        /*
-        RaycastHit2D hit = Physics2D.Raycast(transform.Find("paddle").position, Vector2.down, 5.0f);
+        
+        RaycastHit2D hit = Physics2D.Raycast(transform.Find("paddle").position, Vector2.down, 0.0001f);
         if (hit.collider != null)
         {
             print("tag : " + hit.collider.transform.tag);
@@ -56,17 +60,25 @@ public class Player : MonoBehaviour {
                 print("WoodInWater : " + hit.distance);
                 //collider.size = paddleColliderSize;
             }
-            else
+            else if (hit.collider.transform.tag == "Water")
             {
+                print("ESTOU NA AGUA");
+            }
+            else
+
+            {
+                print("NAO DEU CERTO");
                 //collider.size = baseColliderSize;
             }
         }
-        */
+        
     }
 
-    void FixedUpdate(){
-        float move = Input.GetAxis("Horizontal");
+    public void FixedUpdate(){
 
+        #region Move Player
+
+        float move = Input.GetAxis("Horizontal");
         body.velocity = new Vector2(move * speed, body.velocity.y);
 
         if((move > 0 && sprite.flipX == true) || (move < 0 && sprite.flipX == false))
@@ -79,9 +91,38 @@ public class Player : MonoBehaviour {
             body.AddForce(new Vector2(0f, jumpForce));
             isJumping = false;
         }
+
+        #endregion Move Player
+
+        #region Paddle wood - calcule position
+
+        RaycastHit2D footHit = Physics2D.Raycast(transform.Find("paddle").position, Vector2.down, 0.0001f);
+        if (footHit.collider != null && footHit.collider.transform.tag == "WoodInWater")
+        {
+            if (lastWoodPosition <= 0f)
+            {
+                lastWoodPosition = footHit.collider.transform.position.x;
+            }
+
+            Vector2 newWoodPosition = new Vector2(footHit.collider.transform.position.x - lastWoodPosition, 0);
+            transform.position = new Vector2(newWoodPosition.x + transform.position.x, transform.position.y);
+            lastWoodPosition = transform.position.x;
+            paddle = true;
+        }
+        else
+        {
+            paddle = false;
+        }
+
+        RaycastHit2D joelhinhoHit = Physics2D.Raycast(transform.Find("joelhinho").position, Vector2.down, 0.0001f);
+        if (joelhinhoHit.collider != null && joelhinhoHit.collider.transform.tag == "Water")
+        {
+            print("ESTOU NA AGUA");
+        }
+        #endregion Paddle wood - calcule position
     }
 
-    void Flip()
+    public void Flip()
     {
         sprite.flipX = !sprite.flipX;
     }
@@ -92,9 +133,8 @@ public class Player : MonoBehaviour {
         Gizmos.DrawWireSphere(groundCheck.position, radius);
     }
 
-    void PlayerAnimation()
+    private void PlayerAnimation()
     {
-
         if (paddle)
         {
             anim.Play("remo");
@@ -113,24 +153,5 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public virtual void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "WoodInWater")
-        {
-            //transform.parent = collision.transform;
-            paddle = true;
-            //collider.size = paddleColliderSize;
-        }
-    }
-
-    public virtual void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.transform.tag == "WoodInWater")
-        {
-            //transform.parent = null;
-
-            paddle = false;
-            //caollider.size = baseColliderSize;
-        }
-    }
+    #endregion
 }
