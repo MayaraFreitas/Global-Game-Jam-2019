@@ -9,8 +9,16 @@ public class CameraFollow : MonoBehaviour
     private Vector3 offset; //Private variable to store the offset distance between the player and camera
 
     public Text TimeText;
-    public float clockTime = 0.0f;
+    public float ClockTime = 0.0f;
 
+    public static CameraFollow instancia;
+
+    void Awake()
+    {
+        instancia = this;
+
+
+    }
     public void Start () 
     {
         // Getting the distance between the player's position and camera's position.
@@ -33,11 +41,11 @@ public class CameraFollow : MonoBehaviour
 
     public void Clock()
     {
-        clockTime += Time.deltaTime;
+        ClockTime += Time.deltaTime;
 
-        int seconds = (int)(clockTime % 60);
-        int minutes = (int)((clockTime / 60) % 60);
-        int hours = (int)((clockTime / 3600) % 60);
+        int seconds = (int)(ClockTime % 60);
+        int minutes = (int)((ClockTime / 60) % 60);
+        int hours = (int)((ClockTime / 3600) % 60);
 
         TimeText.text = string.Format("{0:0}:{1:00}:{2:00}", new object[] { hours, minutes, seconds });
     }

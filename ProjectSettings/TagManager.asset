@@ -6,6 +6,11 @@ TagManager:
   tags:
   - WoodInWater
   - Water
+  - Menu Intermediario
+  - Obstacle
+  - TimeResult
+  - PointResult
+  - Casco
   layers:
   - Default
   - TransparentFX
