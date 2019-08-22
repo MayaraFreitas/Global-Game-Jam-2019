@@ -1,6 +1,8 @@
 # Global-Game-Jam-2019
 Jogo desenvolvido em 48horas na Global Game Jam - 2019 - 
+
 Tema: Home
+
 Link para o game: https://globalgamejam.org/2019/games/just
 
 História: 
