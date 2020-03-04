@@ -41,13 +41,13 @@ Como em quase todo jogo, existem obstáculos no meio do caminho. O jogador deve 
 
 ## Morte
 
-Quando o player toca obstacúlos vivos ou a água, morre imediatamente. Nossa tartaruga não pode viver no rio sem suam proteção.
+Quando o player toca obstáculos vivos ou a água, morre imediatamente. Nossa tartaruga não pode viver no rio sem sua proteção.
 
 ![Morte](https://github.com/MayaraFreitas/Global-Game-Jam-2019/blob/master/img/Morte.png)
 
 ## Extra
 
-Existem muitas melhorias para serem feitas no jogo devido o tempo e pouca experiência, no link abaixo foi aproveitada a oportunidade na matéria de sistemas embarcados durante a graduação para melhorar o jogo e desenvolver mais as hábilidades com a Engine
+Existem muitas melhorias para serem feitas no jogo devido o tempo e pouca experiência, no link abaixo foi aproveitada a oportunidade na matéria de sistemas embarcados durante a graduação para melhorar o jogo e desenvolver mais as habilidades com a Engine
 
 https://github.com/MayaraFreitas/Game---Just-That-remaster-
 
